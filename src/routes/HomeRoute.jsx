@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router";
 import Home from "../Home";
-import About from "../components/home/About";
-import Contact from "../components/home/Contact";
+import About from "../Pages/Home/About";
+import Contact from "../Pages/Home/Contact";
 import Root from "../layout/Root";
 
 const HomeRoute = () => {
