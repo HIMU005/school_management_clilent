@@ -1,5 +1,5 @@
-import { NavLink } from "react-router";
-import Profile from "./Profile";
+import { Link, NavLink } from "react-router";
+// import Profile from "./Profile";
 
 const NavBar = () => {
   const links = (
@@ -61,7 +61,10 @@ const NavBar = () => {
       </div>
       <div className="navbar-end">
         {/* <a className="btn">Button</a> */}
-        <Profile />
+        {/* <Profile /> */}
+        <Link to={"/login"} className="btn bg-[#1dd100] text-white ">
+          Login
+        </Link>
       </div>
     </div>
   );
