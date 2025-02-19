@@ -9,7 +9,7 @@ const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 const Login = () => {
-  const { loginUser, setUser, setLoading } = useAuth();
+  const { loginUser, setUser, setLoading, googleLogin } = useAuth();
 
   const onFinish = async (values) => {
     const { email, password } = values;
@@ -18,6 +18,11 @@ const Login = () => {
     setUser(result.user);
     setLoading(false);
     toast.success(`${result.user.email} your login  successfully done`);
+  };
+
+  const handleGoogleLogin = async () => {
+    const result = await googleLogin();
+    console.log(result.user);
   };
   return (
     <div className="flex justify-center flex-col max-w-96 mx-auto">
@@ -80,9 +85,9 @@ const Login = () => {
       </Form>
 
       <div className="flex justify-around gap-3 ">
-        <Link className="btn">
+        <button onClick={handleGoogleLogin} className="btn">
           <FcGoogle className="text-lg mr-1.5  " /> Connect with Google
-        </Link>
+        </button>
       </div>
 
       <p>

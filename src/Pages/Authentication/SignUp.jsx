@@ -12,7 +12,7 @@ const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 const SignUp = () => {
-  const { createUser, setUser, setLoading } = useAuth();
+  const { createUser, setUser, setLoading, googleLogin } = useAuth();
   const onFinish = async (values) => {
     const { email, name, password, confirmPassword } = values;
     console.log(name, confirmPassword);
@@ -27,6 +27,11 @@ const SignUp = () => {
     toast.success(
       `${result.user.email} your registration successfully finished`
     );
+  };
+
+  const handleGoogleLogin = async () => {
+    const result = await googleLogin();
+    console.log(result.user);
   };
 
   return (
@@ -115,9 +120,9 @@ const SignUp = () => {
         </Form>
 
         <div className="flex justify-around gap-3 ">
-          <Link className="btn">
+          <button onClick={handleGoogleLogin} className="btn">
             <FcGoogle className="text-lg mr-1.5  " /> Connect with Google
-          </Link>
+          </button>
         </div>
 
         <p>
