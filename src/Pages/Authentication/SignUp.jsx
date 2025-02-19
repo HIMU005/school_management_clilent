@@ -1,17 +1,36 @@
 import { Button, Form, Input } from "antd";
 import { FcGoogle } from "react-icons/fc";
 
+import { updateProfile } from "firebase/auth";
 import { Link } from "react-router";
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
+import { toast } from "react-toastify";
+import useAuth from "../../hooks/useAuth";
+// const onFinish = (values) => {
+//   console.log("Success:", values);
+// };
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 const SignUp = () => {
+  const { createUser, setUser, setLoading } = useAuth();
+  const onFinish = async (values) => {
+    const { email, name, password, confirmPassword } = values;
+    console.log(name, confirmPassword);
+    const result = await createUser(email, password);
+
+    updateProfile(result.user, {
+      displayName: name,
+      // photoURL: photo,
+    });
+    setUser(result.user);
+    setLoading(false);
+    toast.success(
+      `${result.user.email} your registration successfully finished`
+    );
+  };
+
   return (
     <div>
-      {" "}
       <div className="flex justify-center flex-col max-w-96 mx-auto">
         <Form
           className="border border-red-500"
@@ -37,10 +56,8 @@ const SignUp = () => {
             label="User Name"
             name="name"
             rules={[
-              {
-                required: true,
-                message: "Please input your Email!",
-              },
+              { required: true, message: "Please input your Name!" },
+              { type: "text", message: "Please enter a valid string!" },
             ]}
           >
             <Input />
@@ -51,10 +68,8 @@ const SignUp = () => {
             label="Email"
             name="email"
             rules={[
-              {
-                required: true,
-                message: "Please input your Email!",
-              },
+              { required: true, message: "Please input your Email!" },
+              { type: "email", message: "Please enter a valid email!" },
             ]}
           >
             <Input />
@@ -106,9 +121,9 @@ const SignUp = () => {
         </div>
 
         <p>
-          First time on the website.
-          <Link to={"/signup"} className="btn btn-link  ">
-            Register now
+          Already have account on our website ?
+          <Link to={"/login"} className="btn btn-link  ">
+            Login here
           </Link>
         </p>
       </div>

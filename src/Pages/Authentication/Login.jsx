@@ -2,13 +2,23 @@ import { Button, Form, Input } from "antd";
 import { FcGoogle } from "react-icons/fc";
 
 import { Link } from "react-router";
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
+import { toast } from "react-toastify";
+import useAuth from "../../hooks/useAuth";
+
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 const Login = () => {
+  const { loginUser, setUser, setLoading } = useAuth();
+
+  const onFinish = async (values) => {
+    const { email, password } = values;
+    const result = await loginUser(email, password);
+
+    setUser(result.user);
+    setLoading(false);
+    toast.success(`${result.user.email} your login  successfully done`);
+  };
   return (
     <div className="flex justify-center flex-col max-w-96 mx-auto">
       <Form
@@ -76,7 +86,7 @@ const Login = () => {
       </div>
 
       <p>
-        First time on the website.
+        First time on the website.?
         <Link to={"/signup"} className="btn btn-link  ">
           Register now
         </Link>
