@@ -1,6 +1,7 @@
 import axios from "axios";
+
 const axiosCommon = axios.create({
-  baseUrl: "http://localhost:8000",
+  baseURL: "http://localhost:8000",
 });
 
 const useAxiosCommon = () => {
