@@ -33,7 +33,7 @@ const SignUp = () => {
       }); //update user info
 
       // upload data to db is here
-      const uploadInfo = { name, email, profileImge: photo, password };
+      const uploadInfo = { name, email, photoURL: photo, password };
 
       // upload in backend
       const { data } = await axiosCommon.post("/api/user", uploadInfo);
@@ -54,7 +54,34 @@ const SignUp = () => {
 
   const handleGoogleLogin = async () => {
     const result = await googleLogin();
-    console.log(result);
+    try {
+      const photoURL = result?.user?.photoURL;
+      const name = result?.user?.displayName;
+      const email = result?.user?.email;
+      const uploadInfo = { name, email, photoURL };
+
+      // upload in backend
+      const { data } = await axiosCommon.post(
+        "/api/user/with-email",
+        uploadInfo
+      );
+      if (data.status === 201) {
+        toast.success(
+          `${result.user.email} your registration successfully finished`
+        );
+      }
+      if (data.status === 400) {
+        toast.success(
+          `${result.user.email} your credential was saved previously`
+        );
+      }
+      setUser(result.user);
+      navigate("/");
+      setLoading(false);
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message);
+      setLoading(false);
+    }
   };
 
   return (
@@ -160,12 +187,15 @@ const SignUp = () => {
         </Form>
 
         <div className="flex justify-around gap-3 ">
-          <button onClick={handleGoogleLogin} className="btn">
+          <button
+            onClick={handleGoogleLogin}
+            className="btn"
+            disabled={loading}
+            loading={loading}
+          >
             <FcGoogle className="text-lg mr-1.5  " /> Connect with Google
           </button>
         </div>
-
-        <Loading />
 
         <p>
           Already have account on our website ?
