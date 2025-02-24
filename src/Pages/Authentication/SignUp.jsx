@@ -66,18 +66,21 @@ const SignUp = () => {
         uploadInfo
       );
       if (data.status === 201) {
+        setUser(result.user);
+        setLoading(false);
+        navigate("/");
         toast.success(
           `${result.user.email} your registration successfully finished`
         );
       }
       if (data.status === 400) {
+        setUser(result.user);
+        setLoading(false);
+        navigate("/");
         toast.success(
           `${result.user.email} your credential was saved previously`
         );
       }
-      setUser(result.user);
-      navigate("/");
-      setLoading(false);
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);
       setLoading(false);
