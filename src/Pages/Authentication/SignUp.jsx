@@ -25,26 +25,34 @@ const SignUp = () => {
     }
 
     try {
-      const photo = await imageUpload(image.file); //upload image
-      const result = await createUser(email, password); //create user
-      updateProfile(result.user, {
-        displayName: name,
-        photoURL: photo,
-      }); //update user info
-
-      // upload data to db is here
-      const uploadInfo = { name, email, photoURL: photo, password };
-
-      // upload in backend
-      const { data } = await axiosCommon.post("/api/user", uploadInfo);
-
-      if (data.status === 201) {
-        toast.success(
-          `${result.user.email} your registration successfully finished`
+      const data1 = await axiosCommon(`/api/user/${email}`);
+      if (data1.data.status === 200) {
+        toast.warn(
+          "You already have an account with that account. Log in or try with another one"
         );
-        setUser(result.user);
-        navigate("/");
-        setLoading(false);
+        navigate("/login");
+      } else if (data1.data.status === 400) {
+        const photo = await imageUpload(image.file); //upload image
+        const result = await createUser(email, password); //create user
+        updateProfile(result.user, {
+          displayName: name,
+          photoURL: photo,
+        }); //update user info
+
+        // upload data to db is here
+        const uploadInfo = { name, email, photoURL: photo, password };
+
+        // upload in backend
+        const { data } = await axiosCommon.post("/api/user", uploadInfo);
+
+        if (data.status === 201) {
+          toast.success(
+            `${result.user.email} your registration successfully finished`
+          );
+          setUser(result.user);
+          navigate("/");
+          setLoading(false);
+        }
       }
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);
