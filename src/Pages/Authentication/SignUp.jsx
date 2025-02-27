@@ -31,7 +31,7 @@ const SignUp = () => {
           "You already have an account with that account. Log in or try with another one"
         );
         navigate("/login");
-      } else if (data1.data.status === 400) {
+      } else if (data1.data.status === 404) {
         const photo = await imageUpload(image.file); //upload image
         const result = await createUser(email, password); //create user
         updateProfile(result.user, {
