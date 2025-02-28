@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { imageUpload } from "../../api/imageUpload";
 import Loading from "../../components/shared/Loading";
 import useAuth from "../../hooks/useAuth";
-import useAxiosCommon from "../../hooks/useAxios";
+import useAxiosCommon from "../../hooks/useAxiosCommon";
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
