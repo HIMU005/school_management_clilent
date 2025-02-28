@@ -1,7 +1,7 @@
 import { Button, Form, Input } from "antd";
 import { FcGoogle } from "react-icons/fc";
 
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import useAuth from "../../hooks/useAuth";
 import useAxiosCommon from "../../hooks/useAxiosCommon";
@@ -12,6 +12,10 @@ const onFinishFailed = (errorInfo) => {
 const Login = () => {
   const { loginUser, setUser, setLoading, googleLogin, loading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state || "/";
+  console.log(location);
+  console.log(from);
   const axiosCommon = useAxiosCommon();
 
   const onFinish = async (values) => {
@@ -23,7 +27,7 @@ const Login = () => {
         const result = await loginUser(email, password);
         setUser(result.user);
         setLoading(false);
-        navigate("/");
+        navigate(from, { replace: true });
         toast.success(`${result.user.email} your login is successfully done`);
       } else {
         toast.error(data.message);
@@ -51,7 +55,7 @@ const Login = () => {
       if (data.status === 201) {
         setUser(result.user);
         setLoading(false);
-        navigate("/");
+        navigate(from, { replace: true });
         toast.success(
           `${result.user.email} your registration successfully finished`
         );
@@ -59,7 +63,7 @@ const Login = () => {
       if (data.status === 400) {
         setUser(result.user);
         setLoading(false);
-        navigate("/");
+        navigate(from, { replace: true });
         toast.success(
           `${result.user.email} your credential was saved previously`
         );

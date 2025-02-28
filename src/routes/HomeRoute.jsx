@@ -7,6 +7,7 @@ import SignUp from "../Pages/Authentication/SignUp";
 import DashboardHome from "../Pages/Dashboard/DashboardHome";
 import About from "../Pages/Home/About";
 import Contact from "../Pages/Home/Contact";
+import PrivateRoute from "./PrivateRoute";
 
 const HomeRoute = () => {
   return (
@@ -21,7 +22,14 @@ const HomeRoute = () => {
 
       {/* dashboard  */}
       <Route path="/dashboard" element={<DashBoardLayout />}>
-        <Route index element={<DashboardHome />} />
+        <Route
+          index
+          element={
+            <PrivateRoute>
+              <DashboardHome />
+            </PrivateRoute>
+          }
+        />
       </Route>
     </Routes>
   );

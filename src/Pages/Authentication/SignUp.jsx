@@ -3,7 +3,7 @@ import { Button, Form, Input, Upload } from "antd";
 import { FcGoogle } from "react-icons/fc";
 
 import { updateProfile } from "firebase/auth";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { imageUpload } from "../../api/imageUpload";
 import Loading from "../../components/shared/Loading";
@@ -17,6 +17,8 @@ const SignUp = () => {
   const { createUser, setUser, setLoading, googleLogin, loading } = useAuth();
   const axiosCommon = useAxiosCommon();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state || "/";
   const onFinish = async (values) => {
     const { email, name, password, confirmPassword, image } = values;
 
@@ -50,7 +52,7 @@ const SignUp = () => {
             `${result.user.email} your registration successfully finished`
           );
           setUser(result.user);
-          navigate("/");
+          navigate(from, { replace: true });
           setLoading(false);
         }
       }
