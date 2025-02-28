@@ -4,7 +4,8 @@ import DashBoardLayout from "../layout/DashBoardLayout";
 import Root from "../layout/Root";
 import Login from "../Pages/Authentication/Login";
 import SignUp from "../Pages/Authentication/SignUp";
-import DashboardHome from "../Pages/Dashboard/DashboardHome";
+import DashboardHome from "../Pages/Dashboard/commonRoute/DashboardHome";
+import Profile from "../Pages/Dashboard/commonRoute/Profile";
 import About from "../Pages/Home/About";
 import Contact from "../Pages/Home/Contact";
 import PrivateRoute from "./PrivateRoute";
@@ -22,11 +23,22 @@ const HomeRoute = () => {
 
       {/* dashboard  */}
       <Route path="/dashboard" element={<DashBoardLayout />}>
+        {/* dashboard default  */}
         <Route
           index
           element={
             <PrivateRoute>
               <DashboardHome />
+            </PrivateRoute>
+          }
+        />
+
+        {/* dashboard profile  */}
+        <Route
+          path="profile"
+          element={
+            <PrivateRoute>
+              <Profile />
             </PrivateRoute>
           }
         />
