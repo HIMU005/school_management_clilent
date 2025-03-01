@@ -49,9 +49,7 @@ const SignUp = () => {
         const { data } = await axiosCommon.post("/api/user", uploadInfo);
 
         if (data.status === 201) {
-          toast.success(
-            `${result.user.name} your registration successfully finished`
-          );
+          toast.success(`${name} your registration successfully finished`);
           setUser(result.user);
           navigate(from, { replace: true });
           setLoading(false);
@@ -80,17 +78,13 @@ const SignUp = () => {
         setUser(result.user);
         setLoading(false);
         navigate("/");
-        toast.success(
-          `${result.user.email} your registration successfully finished`
-        );
+        toast.success(`${name} your registration successfully finished`);
       }
       if (data.status === 400) {
         setUser(result.user);
         setLoading(false);
         navigate("/");
-        toast.success(
-          `${result.user.email} your credential was saved previously`
-        );
+        toast.success(`${name} your credential was saved previously`);
       }
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);
@@ -158,11 +152,11 @@ const SignUp = () => {
                 max: 15,
                 message: "Password must be at most 15 characters long.",
               },
-              {
-                pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])/,
-                message:
-                  "Password must contain an uppercase letter, a lowercase letter, a number, and a special character.",
-              },
+              // {
+              //   pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])/,
+              //   message:
+              //     "Password must contain an uppercase letter, a lowercase letter, a number, and a special character.",
+              // },
             ]}
           >
             <Input.Password />

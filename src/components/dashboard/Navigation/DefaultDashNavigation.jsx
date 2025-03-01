@@ -7,8 +7,6 @@ const DefaultDashNavigation = () => {
   const { logOut } = useAuth();
   return (
     <div>
-      <EachNavigationItem icon={IoLogOutOutline} title={"Logout"} />
-      <EachNavigationItem icon={IoLogOutOutline} title={"Logout"} />
       <EachNavigationItem
         icon={FaUserFriends}
         title={"Profile"}

@@ -6,9 +6,11 @@ import Login from "../Pages/Authentication/Login";
 import SignUp from "../Pages/Authentication/SignUp";
 import DashboardHome from "../Pages/Dashboard/commonRoute/DashboardHome";
 import Profile from "../Pages/Dashboard/commonRoute/Profile";
+import TakeAttendance from "../Pages/Dashboard/teacherRoute/TakeAttendance";
 import About from "../Pages/Home/About";
 import Contact from "../Pages/Home/Contact";
 import PrivateRoute from "./PrivateRoute";
+import TeacherRoute from "./TeacherRoute";
 
 const HomeRoute = () => {
   return (
@@ -39,6 +41,17 @@ const HomeRoute = () => {
           element={
             <PrivateRoute>
               <Profile />
+            </PrivateRoute>
+          }
+        />
+        {/* teacher take attendance here  */}
+        <Route
+          path="take-attendance"
+          element={
+            <PrivateRoute>
+              <TeacherRoute>
+                <TakeAttendance />
+              </TeacherRoute>
             </PrivateRoute>
           }
         />
