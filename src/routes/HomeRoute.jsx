@@ -10,7 +10,7 @@ import TakeAttendance from "../Pages/Dashboard/teacherRoute/TakeAttendance";
 import About from "../Pages/Home/About";
 import Contact from "../Pages/Home/Contact";
 import PrivateRoute from "./PrivateRoute";
-import TeacherRoute from "./TeacherRoute";
+// import TeacherSecure from "./TeacherSecure";
 
 const HomeRoute = () => {
   return (
@@ -49,9 +49,9 @@ const HomeRoute = () => {
           path="take-attendance"
           element={
             <PrivateRoute>
-              <TeacherRoute>
-                <TakeAttendance />
-              </TeacherRoute>
+              {/* <TeacherSecure> */}
+              <TakeAttendance />
+              {/* </TeacherSecure> */}
             </PrivateRoute>
           }
         />

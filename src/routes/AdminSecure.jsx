@@ -3,14 +3,14 @@ import useUserInfo from "../hooks/useUserInfo";
 import LoadingPage from "../Pages/LoadingPage/LoadingPage";
 
 // eslint-disable-next-line react/prop-types
-const TeacherRoute = ({ children }) => {
+const AdminSecure = ({ children }) => {
   const { userInfo, isLoading } = useUserInfo();
 
   if (isLoading) <LoadingPage />;
 
-  if (userInfo.role === "TEACHER") return children;
+  if (userInfo.isAdmin === true) return children;
 
   return <Navigate to="/login" state={location.pathname} replace={true} />;
 };
 
-export default TeacherRoute;
+export default AdminSecure;
