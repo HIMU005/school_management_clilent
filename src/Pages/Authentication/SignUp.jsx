@@ -1,5 +1,5 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Upload } from "antd";
+import { Button, Form, Input, Select, Upload } from "antd";
 import { FcGoogle } from "react-icons/fc";
 
 import { updateProfile } from "firebase/auth";
@@ -9,6 +9,7 @@ import { imageUpload } from "../../api/imageUpload";
 import Loading from "../../components/shared/Loading";
 import useAuth from "../../hooks/useAuth";
 import useAxiosCommon from "../../hooks/useAxiosCommon";
+const { Option } = Select;
 
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
@@ -20,7 +21,7 @@ const SignUp = () => {
   const location = useLocation();
   const from = location.state || "/";
   const onFinish = async (values) => {
-    const { email, name, password, confirmPassword, image } = values;
+    const { email, name, password, confirmPassword, image, role } = values;
 
     if (password !== confirmPassword) {
       return toast.error("password and confirm Password should be same");
@@ -42,14 +43,14 @@ const SignUp = () => {
         }); //update user info
 
         // upload data to db is here
-        const uploadInfo = { name, email, photoURL: photo, password };
+        const uploadInfo = { name, email, photoURL: photo, password, role };
 
         // upload in backend
         const { data } = await axiosCommon.post("/api/user", uploadInfo);
 
         if (data.status === 201) {
           toast.success(
-            `${result.user.email} your registration successfully finished`
+            `${result.user.name} your registration successfully finished`
           );
           setUser(result.user);
           navigate(from, { replace: true });
@@ -191,6 +192,14 @@ const SignUp = () => {
           {/* <Form.Item name="remember" valuePropName="checked" label={null}>
       <Checkbox>Remember me</Checkbox>
     </Form.Item> */}
+
+          <Form.Item label="Select Role" name="role" initialValue="STUDENT">
+            <Select>
+              <Option value="STUDENT">STUDENT</Option>
+              <Option value="TEACHER">TEACHER</Option>
+              <Option value="GUARDIAN">GUARDIAN</Option>
+            </Select>
+          </Form.Item>
 
           <Form.Item label={null}>
             <Button type="primary" htmlType="submit" disabled={loading}>

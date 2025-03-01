@@ -13,8 +13,6 @@ export const imageUpload = async (image) => {
       formData
     );
 
-    console.log(data);
-
     // Check if the upload was successful
     if (data.success) {
       return data.data.display_url; // Return the display URL of the uploaded image
