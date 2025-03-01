@@ -50,6 +50,12 @@ const SignUp = () => {
 
         if (data.status === 201) {
           toast.success(`${name} your registration successfully finished`);
+          if (role === "STUDENT") {
+            await axiosCommon.post("/api/student", { user_id: data.data.id });
+          }
+          if (role === "TEACHER") {
+            await axiosCommon.post("/api/teacher", { user_id: data.data.id });
+          }
           setUser(result.user);
           navigate(from, { replace: true });
           setLoading(false);
