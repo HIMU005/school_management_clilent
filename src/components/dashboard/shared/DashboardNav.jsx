@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { IoClose, IoReorderThreeOutline } from "react-icons/io5";
+import useUserInfo from "../../../hooks/useUserInfo";
 import DefaultDashNavigation from "../Navigation/DefaultDashNavigation";
-
+import TeacherRouter from "../Navigation/TeacherRouter";
 const DashboardNav = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { userInfo } = useUserInfo();
   return (
     <>
       <div
@@ -23,6 +25,7 @@ const DashboardNav = () => {
         <div className="flex flex-col justify-between h-full  ">
           <div></div>
           <div>
+            {userInfo?.role === "TEACHER" && <TeacherRouter />}
             <DefaultDashNavigation />
           </div>
         </div>

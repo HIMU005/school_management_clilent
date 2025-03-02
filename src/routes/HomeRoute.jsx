@@ -4,9 +4,13 @@ import DashBoardLayout from "../layout/DashBoardLayout";
 import Root from "../layout/Root";
 import Login from "../Pages/Authentication/Login";
 import SignUp from "../Pages/Authentication/SignUp";
-import DashboardHome from "../Pages/Dashboard/DashboardHome";
+import DashboardHome from "../Pages/Dashboard/commonRoute/DashboardHome";
+import Profile from "../Pages/Dashboard/commonRoute/Profile";
+import TakeAttendance from "../Pages/Dashboard/teacherRoute/TakeAttendance";
 import About from "../Pages/Home/About";
 import Contact from "../Pages/Home/Contact";
+import PrivateRoute from "./PrivateRoute";
+// import TeacherSecure from "./TeacherSecure";
 
 const HomeRoute = () => {
   return (
@@ -21,7 +25,36 @@ const HomeRoute = () => {
 
       {/* dashboard  */}
       <Route path="/dashboard" element={<DashBoardLayout />}>
-        <Route index element={<DashboardHome />} />
+        {/* dashboard default  */}
+        <Route
+          index
+          element={
+            <PrivateRoute>
+              <DashboardHome />
+            </PrivateRoute>
+          }
+        />
+
+        {/* dashboard profile  */}
+        <Route
+          path="profile"
+          element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          }
+        />
+        {/* teacher take attendance here  */}
+        <Route
+          path="take-attendance"
+          element={
+            <PrivateRoute>
+              {/* <TeacherSecure> */}
+              <TakeAttendance />
+              {/* </TeacherSecure> */}
+            </PrivateRoute>
+          }
+        />
       </Route>
     </Routes>
   );
