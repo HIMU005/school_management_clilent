@@ -48,10 +48,10 @@ const Profile = () => {
   };
 
   return (
-    <div className="w-full ">
+    <div className=" ">
       <div className="flex flex-col md:flex-row md:justify-between gap-4 w-full mx-auto ">
         {/* left part  */}
-        <div className="border border-red-500 w-full space-y-2 p-2 ">
+        <div className=" space-y-2 p-2 bg-gray-100 rounded-md ">
           <div className="flex flex-col md:flex-row md:justify-between gap-1 ">
             <Image width={100} src={userInfo?.photoURL} />
             <div className="">
@@ -75,7 +75,7 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row md:justify-between gap-0 ">
+          <div className="flex flex-col md:flex-row md:justify-between gap-8 ">
             <div>
               {/* dob  */}
               <InformationAsInput
@@ -104,7 +104,7 @@ const Profile = () => {
         </div>
 
         {/* right part  */}
-        <div className="border border-blue-500 w-full h-auto p-2 ">
+        <div className=" p-2 bg-gray-100 rounded-md ">
           {userInfo?.role === "STUDENT" && (
             <ShowStudentInformation roleInfo={roleInfo} />
           )}
