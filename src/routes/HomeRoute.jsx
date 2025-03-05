@@ -6,6 +6,7 @@ import Login from "../Pages/Authentication/Login";
 import SignUp from "../Pages/Authentication/SignUp";
 import DashboardHome from "../Pages/Dashboard/commonRoute/DashboardHome";
 import Profile from "../Pages/Dashboard/commonRoute/Profile";
+import UpdateProfile from "../Pages/Dashboard/commonRoute/UpdateProfile";
 import TakeAttendance from "../Pages/Dashboard/teacherRoute/TakeAttendance";
 import About from "../Pages/Home/About";
 import Contact from "../Pages/Home/Contact";
@@ -41,6 +42,16 @@ const HomeRoute = () => {
           element={
             <PrivateRoute>
               <Profile />
+            </PrivateRoute>
+          }
+        />
+
+        {/* dashboard update profile profile  */}
+        <Route
+          path="updateProfile"
+          element={
+            <PrivateRoute>
+              <UpdateProfile />
             </PrivateRoute>
           }
         />
