@@ -1,5 +1,7 @@
 import { Image } from "antd";
 import { useEffect, useState } from "react";
+import { CiEdit } from "react-icons/ci";
+import { Link } from "react-router";
 import InformationAsInput from "../../../components/dashboard/showInformation/InformationAsInput";
 import ShowStudentInformation from "../../../components/dashboard/showInformation/ShowStudentInformation";
 import useAuth from "../../../hooks/useAuth";
@@ -46,66 +48,75 @@ const Profile = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row md:justify-between gap-4 w-full">
-      {/* left part  */}
-      <div className="border border-red-500 w-full space-y-2 p-2 ">
-        <div className="flex flex-col md:flex-row md:justify-between gap-1 ">
-          <Image width={100} src={userInfo?.photoURL} />
-          <div className="">
-            {/* Name  */}
-            <InformationAsInput
-              userInfoValue={userInfo?.name}
-              labelTitle={"Name"}
-            />
+    <div className="w-full ">
+      <div className="flex flex-col md:flex-row md:justify-between gap-4 w-full mx-auto ">
+        {/* left part  */}
+        <div className="border border-red-500 w-full space-y-2 p-2 ">
+          <div className="flex flex-col md:flex-row md:justify-between gap-1 ">
+            <Image width={100} src={userInfo?.photoURL} />
+            <div className="">
+              {/* Name  */}
+              <InformationAsInput
+                userInfoValue={userInfo?.name}
+                labelTitle={"Name"}
+              />
 
-            {/* Email  */}
-            <InformationAsInput
-              userInfoValue={userInfo?.email}
-              labelTitle={"Email"}
-            />
+              {/* Email  */}
+              <InformationAsInput
+                userInfoValue={userInfo?.email}
+                labelTitle={"Email"}
+              />
 
-            {/* phone  */}
-            <InformationAsInput
-              userInfoValue={userInfo?.phone}
-              labelTitle={"Phone"}
-            />
+              {/* phone  */}
+              <InformationAsInput
+                userInfoValue={userInfo?.phone}
+                labelTitle={"Phone"}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col md:flex-row md:justify-between gap-0 ">
+            <div>
+              {/* dob  */}
+              <InformationAsInput
+                userInfoValue={userInfo?.dob}
+                labelTitle={"DOB"}
+              />
+              {/* Age  */}
+              <InformationAsInput
+                userInfoValue={userInfo?.age}
+                labelTitle={"Age"}
+              />
+            </div>
+            <div>
+              {/* gender  */}
+              <InformationAsInput
+                userInfoValue={userInfo?.gender}
+                labelTitle={"Gender"}
+              />
+              {/* dob  */}
+              <InformationAsInput
+                userInfoValue={userInfo?.role}
+                labelTitle={"Role: "}
+              />
+            </div>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row md:justify-between gap-0 ">
-          <div>
-            {/* dob  */}
-            <InformationAsInput
-              userInfoValue={userInfo?.dob}
-              labelTitle={"DOB"}
-            />
-            {/* Age  */}
-            <InformationAsInput
-              userInfoValue={userInfo?.age}
-              labelTitle={"Age"}
-            />
-          </div>
-          <div>
-            {/* gender  */}
-            <InformationAsInput
-              userInfoValue={userInfo?.gender}
-              labelTitle={"Gender"}
-            />
-            {/* dob  */}
-            <InformationAsInput
-              userInfoValue={userInfo?.role}
-              labelTitle={"Role: "}
-            />
-          </div>
+        {/* right part  */}
+        <div className="border border-blue-500 w-full h-auto p-2 ">
+          {userInfo?.role === "STUDENT" && (
+            <ShowStudentInformation roleInfo={roleInfo} />
+          )}
         </div>
       </div>
 
-      {/* right part  */}
-      <div className="border border-blue-500 w-full h-auto p-2 ">
-        {userInfo?.role === "STUDENT" && (
-          <ShowStudentInformation roleInfo={roleInfo} />
-        )}
-      </div>
+      <Link
+        to={"/dashboard/updateProfile"}
+        className="btn bg-[#1DD100] text-white "
+      >
+        <CiEdit className="text-2xl " /> Edit
+      </Link>
     </div>
   );
 };
