@@ -48,7 +48,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="border border-red-500 ">
+    <div className="">
       <div className="flex flex-col md:flex-row  gap-4 w-full mx-auto ">
         {/* left part  */}
         <div className=" space-y-2 p-2 bg-gray-100 rounded-md ">
