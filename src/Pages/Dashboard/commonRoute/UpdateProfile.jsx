@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, DatePicker, Form, Input, Select } from "antd";
+import { Button, DatePicker, Form, Input, Select, Upload } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { imageUpload } from "../../../api/imageUpload";
 import StudentUpdate from "../../../components/dashboard/UpdateForm/StudentUpdate";
 import useAuth from "../../../hooks/useAuth";
 import { axiosSecure } from "../../../hooks/useAxiosSecure";
@@ -18,6 +19,7 @@ const UpdateProfile = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [roleInfo, setRoleInfo] = useState(null);
   const [classes, setClasses] = useState(null);
+  const [fileList, setFileList] = useState([]);
 
   useEffect(() => {
     if (email) {
@@ -37,6 +39,18 @@ const UpdateProfile = () => {
         ...userInfo,
         dob: validDob, // Set dob only if it's valid, else set it to null
       });
+
+      // Set initial profile image if available
+      if (userInfo?.photoURL) {
+        setFileList([
+          {
+            uid: "-1",
+            name: "profile_image",
+            status: "done",
+            url: userInfo?.photoURL,
+          },
+        ]);
+      }
     }
   }, [userInfo, form]);
 
@@ -84,6 +98,11 @@ const UpdateProfile = () => {
     form.setFieldsValue({ age: newAge, dob: date }); // Update age field dynamically
   };
 
+  // handle the image change here
+  const handleImageChange = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
+  };
+
   const handleSubmit = async (values) => {
     try {
       setLoading(true);
@@ -91,7 +110,17 @@ const UpdateProfile = () => {
       if (values.dob) {
         values.dob = dayjs(values.dob).toISOString(); // Converts to ISO 8601 format
       }
+      // add role in the values for update the user role information also
       values.role = userInfo.role;
+      values.photoURL = userInfo.photoURL;
+      // If an image is uploaded, use the imageUpload function
+      if (fileList.length > 0 && fileList[0].originFileObj) {
+        const imageUrl = await imageUpload(fileList[0].originFileObj); // Upload image
+        values.photoURL = imageUrl; // Attach the URL of the uploaded image
+      }
+
+      console.log(values);
+
       const { data } = await axiosSecure.put(
         `/api/update_user/${userInfo?.id}`,
         values
@@ -124,9 +153,22 @@ const UpdateProfile = () => {
         gender: userInfo?.gender || "",
         dob: userInfo?.dob ? dayjs(userInfo.dob) : null,
         age: userInfo?.age || "",
+        photoURL: userInfo?.photoURL,
       }}
     >
       <div className="flex flex-col md:flex-row md:justify-between gap-4 w-full mx-auto ">
+        {/* Profile Image */}
+        <Form.Item label="Profile Image">
+          <Upload
+            listType="picture-card"
+            fileList={fileList}
+            onChange={handleImageChange}
+            beforeUpload={() => false}
+          >
+            {fileList.length === 0 && "+ Upload"}
+          </Upload>
+        </Form.Item>
+
         {/* name  */}
         <Form.Item
           label="User Name :"
