@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { imageUpload } from "../../../api/imageUpload";
 import StudentUpdate from "../../../components/dashboard/UpdateForm/StudentUpdate";
+import TeacherUpdate from "../../../components/dashboard/UpdateForm/TeacherUpdate";
 import useAuth from "../../../hooks/useAuth";
 import { axiosSecure } from "../../../hooks/useAxiosSecure";
 
@@ -20,6 +21,8 @@ const UpdateProfile = () => {
   const [roleInfo, setRoleInfo] = useState(null);
   const [classes, setClasses] = useState(null);
   const [fileList, setFileList] = useState([]);
+
+  // console.log(roleInfo);
 
   useEffect(() => {
     if (email) {
@@ -74,10 +77,17 @@ const UpdateProfile = () => {
 
   const fetchRoleInfo = async () => {
     try {
-      // const {data} = await axiosSecure(`/api/`)
+      // fetch if the user is STUDENT
       if (userInfo.role === "STUDENT") {
         const { data } = await axiosSecure(
           `/api/student/user_id/${userInfo.id}`
+        );
+        setRoleInfo(data.data);
+      }
+
+      if (userInfo.role === "TEACHER") {
+        const { data } = await axiosSecure(
+          `/api/teacher/user_id/${userInfo.id}`
         );
         setRoleInfo(data.data);
       }
@@ -241,6 +251,10 @@ const UpdateProfile = () => {
 
       {userInfo?.role === "STUDENT" && (
         <StudentUpdate roleInfo={roleInfo} classes={classes} form={form} />
+      )}
+
+      {userInfo?.role === "TEACHER" && (
+        <TeacherUpdate roleInfo={roleInfo} form={form} />
       )}
 
       <Button

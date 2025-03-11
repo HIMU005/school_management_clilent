@@ -4,8 +4,6 @@ import { useEffect } from "react";
 
 const StudentUpdate = ({ roleInfo, classes, form }) => {
   const { Option } = Select;
-  console.log(roleInfo);
-  console.log(classes);
 
   useEffect(() => {
     if (roleInfo) {
