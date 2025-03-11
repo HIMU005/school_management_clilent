@@ -1,10 +1,9 @@
-import { useState } from "react";
+/* eslint-disable react/prop-types */
 import { IoClose, IoReorderThreeOutline } from "react-icons/io5";
 import useUserInfo from "../../../hooks/useUserInfo";
 import DefaultDashNavigation from "../Navigation/DefaultDashNavigation";
 import TeacherRouter from "../Navigation/TeacherRouter";
-const DashboardNav = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const DashboardNav = ({ isOpen, setIsOpen }) => {
   const { userInfo } = useUserInfo();
   return (
     <>
