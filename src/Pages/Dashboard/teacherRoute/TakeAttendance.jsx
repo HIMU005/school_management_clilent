@@ -74,9 +74,27 @@ const TakeAttendance = () => {
       const { data } = await axiosSecure(
         `/api/filter/student_for_attendance?selectedClass=${selectedClass}`
       );
-      console.log(data);
+
+      // Assuming the data returned from the filter API contains an array of students
+      const studentDetails = await Promise.all(
+        data.data.map(async (student) => {
+          // Fetch the user name for each student
+          const userResponse = await axiosSecure(
+            `/api/user/user_id/${student.user_id}`
+          );
+          return {
+            id: student?.id,
+            name: userResponse.data.data.name || "Unknown",
+            classId: student?.class_id,
+            status: "ABSENT", // You can set the status to whatever is appropriate here
+          };
+        })
+      );
+      setStudents(studentDetails);
+      setLoading(false); // Set loading to false when done fetching
     } catch (error) {
-      console.error("Error fetching classes:", error);
+      console.error("Error fetching students for attendance:", error);
+      setLoading(false); // Set loading to false in case of an error
     }
   };
 
