@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 import InformationAsInput from "./InformationAsInput";
 /* eslint-disable react/prop-types */
 const ShowTeacherInformation = ({ roleInfo }) => {
-  console.log(roleInfo?.joiningDate);
   return (
     <div>
       {/* teacher id  */}

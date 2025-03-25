@@ -1,8 +1,32 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import InformationAsInput from "./InformationAsInput";
 
 const ShowStudentInformation = ({ roleInfo }) => {
-  //   console.log(roleInfo);
+  const axiosSecure = useAxiosSecure();
+
+  const [classes, setClasses] = useState(null);
+
+  useEffect(() => {
+    fetchClasses();
+  }, [roleInfo]);
+
+  // fetch all class function
+  const fetchClasses = async () => {
+    try {
+      const { data } = await axiosSecure("/api/class");
+      setClasses(data.data);
+    } catch (error) {
+      console.error("Error fetching classes:", error);
+    }
+  };
+
+  const class_Name = classes?.find(
+    (classItem) => classItem.id === roleInfo?.class_id
+  )?.name;
+
   return (
     <div>
       {/* student ID  */}
@@ -18,7 +42,8 @@ const ShowStudentInformation = ({ roleInfo }) => {
       />
       {/* class  */}
       <InformationAsInput
-        userInfoValue={roleInfo?.class_id}
+        // userInfoValue={roleInfo?.class_id}
+        userInfoValue={class_Name}
         labelTitle={"Class "}
       />
     </div>

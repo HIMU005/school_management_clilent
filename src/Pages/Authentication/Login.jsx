@@ -14,8 +14,6 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state || "/";
-  console.log(location);
-  console.log(from);
   const axiosCommon = useAxiosCommon();
 
   const onFinish = async (values) => {
