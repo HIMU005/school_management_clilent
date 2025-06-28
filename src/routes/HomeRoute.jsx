@@ -7,6 +7,7 @@ import SignUp from "../Pages/Authentication/SignUp";
 import DashboardHome from "../Pages/Dashboard/commonRoute/DashboardHome";
 import Profile from "../Pages/Dashboard/commonRoute/Profile";
 import UpdateProfile from "../Pages/Dashboard/commonRoute/UpdateProfile";
+import SeeALLAttendance from "../Pages/Dashboard/teacherRoute/SeeALLAttendance";
 import TakeAttendance from "../Pages/Dashboard/teacherRoute/TakeAttendance";
 import About from "../Pages/Home/About";
 import Contact from "../Pages/Home/Contact";
@@ -63,6 +64,17 @@ const HomeRoute = () => {
             <PrivateRoute>
               <TeacherSecure>
                 <TakeAttendance />
+              </TeacherSecure>
+            </PrivateRoute>
+          }
+        />
+        {/* teacher see all attendance here  */}
+        <Route
+          path="see-attendance"
+          element={
+            <PrivateRoute>
+              <TeacherSecure>
+                <SeeALLAttendance />
               </TeacherSecure>
             </PrivateRoute>
           }

@@ -9,18 +9,6 @@ const TakeAttendance = () => {
   const [loading, setLoading] = useState(true);
   const [selectedClass, setSelectedClass] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  // const toastConfig = {
-  //   position: "top-right",
-  //   autoClose: 5000,
-  //   hideProgressBar: false,
-  //   closeOnClick: true,
-  //   pauseOnHover: true,
-  //   draggable: true,
-  //   progress: undefined,
-  // };
-
-  // console.log(students);
-  // console.log(classes);
 
   useEffect(() => {
     fetchStudents();

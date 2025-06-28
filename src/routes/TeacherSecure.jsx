@@ -8,7 +8,6 @@ const TeacherSecure = ({ children }) => {
 
   if (isLoading) return <LoadingPage />;
 
-  console.log(userInfo?.role);
   // if (userInfo?.role === "TEACHER") return children;
   if (userInfo && userInfo.role === "TEACHER") return children;
 
