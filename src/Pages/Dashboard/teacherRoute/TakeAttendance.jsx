@@ -1,5 +1,6 @@
-import { Button, Select, Table } from "antd";
+import { Button, message, Select, Table } from "antd";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { axiosSecure } from "../../../hooks/useAxiosSecure";
 
 const TakeAttendance = () => {
@@ -7,6 +8,16 @@ const TakeAttendance = () => {
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedClass, setSelectedClass] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const toastConfig = {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  };
 
   // console.log(students);
   // console.log(classes);
@@ -99,8 +110,31 @@ const TakeAttendance = () => {
   };
 
   // Handle submit
-  const handleSubmit = () => {
-    console.log(JSON.stringify(students, null, 2)); // Log JSON data
+  const handleSubmit = async () => {
+    try {
+      const attendanceData = students.map((student) => ({
+        student_id: student.id,
+        class_id: student.classId,
+        status: student.status,
+      }));
+      const response = await axiosSecure.post(
+        "/api/teacher/attendance",
+        attendanceData
+      );
+      if (response.data.status === 201) {
+        toast.success("Attendance taken successfully", toastConfig);
+      }
+      message.success("attendance taking perfectly done");
+    } catch (error) {
+      if (error.response && error.response.data) {
+        toast.error(
+          error.response.data.message || "Failed to take attendance",
+          toastConfig
+        );
+      }
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const statusStyles = {
@@ -193,7 +227,13 @@ const TakeAttendance = () => {
         pagination={false}
         bordered
       />
-      <Button type="primary" onClick={handleSubmit} style={{ marginTop: 10 }}>
+      <Button
+        type="primary"
+        loading={submitting}
+        disabled={submitting}
+        onClick={handleSubmit}
+        style={{ marginTop: 10 }}
+      >
         Submit Attendance
       </Button>
     </div>
