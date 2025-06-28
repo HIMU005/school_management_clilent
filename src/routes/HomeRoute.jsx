@@ -11,6 +11,7 @@ import TakeAttendance from "../Pages/Dashboard/teacherRoute/TakeAttendance";
 import About from "../Pages/Home/About";
 import Contact from "../Pages/Home/Contact";
 import PrivateRoute from "./PrivateRoute";
+import TeacherSecure from "./TeacherSecure";
 // import TeacherSecure from "./TeacherSecure";
 
 const HomeRoute = () => {
@@ -60,9 +61,9 @@ const HomeRoute = () => {
           path="take-attendance"
           element={
             <PrivateRoute>
-              {/* <TeacherSecure> */}
-              <TakeAttendance />
-              {/* </TeacherSecure> */}
+              <TeacherSecure>
+                <TakeAttendance />
+              </TeacherSecure>
             </PrivateRoute>
           }
         />

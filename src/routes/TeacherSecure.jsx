@@ -6,9 +6,11 @@ import LoadingPage from "../Pages/LoadingPage/LoadingPage";
 const TeacherSecure = ({ children }) => {
   const { userInfo, isLoading } = useUserInfo();
 
-  if (isLoading) <LoadingPage />;
+  if (isLoading) return <LoadingPage />;
 
-  if (userInfo.role === "TEACHER") return children;
+  console.log(userInfo?.role);
+  // if (userInfo?.role === "TEACHER") return children;
+  if (userInfo && userInfo.role === "TEACHER") return children;
 
   return <Navigate to="/login" state={location.pathname} replace={true} />;
 };

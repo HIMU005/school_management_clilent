@@ -6,9 +6,9 @@ import LoadingPage from "../Pages/LoadingPage/LoadingPage";
 const StudentSecure = ({ children }) => {
   const { userInfo, isLoading } = useUserInfo();
 
-  if (isLoading) <LoadingPage />;
+  if (isLoading) return <LoadingPage />;
 
-  if (userInfo.role === "STUDENT") return children;
+  if (userInfo && userInfo.role === "STUDENT") return children;
 
   return <Navigate to="/login" state={location.pathname} replace={true} />;
 };

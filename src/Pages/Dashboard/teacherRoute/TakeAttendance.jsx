@@ -9,15 +9,15 @@ const TakeAttendance = () => {
   const [loading, setLoading] = useState(true);
   const [selectedClass, setSelectedClass] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const toastConfig = {
-    position: "top-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  };
+  // const toastConfig = {
+  //   position: "top-right",
+  //   autoClose: 5000,
+  //   hideProgressBar: false,
+  //   closeOnClick: true,
+  //   pauseOnHover: true,
+  //   draggable: true,
+  //   progress: undefined,
+  // };
 
   // console.log(students);
   // console.log(classes);
@@ -122,15 +122,12 @@ const TakeAttendance = () => {
         attendanceData
       );
       if (response.data.status === 201) {
-        toast.success("Attendance taken successfully", toastConfig);
+        toast.success("Attendance taken successfully");
       }
       message.success("attendance taking perfectly done");
     } catch (error) {
       if (error.response && error.response.data) {
-        toast.error(
-          error.response.data.message || "Failed to take attendance",
-          toastConfig
-        );
+        toast.error(error.response.data.message || "Failed to take attendance");
       }
     } finally {
       setSubmitting(false);

@@ -6,9 +6,9 @@ import LoadingPage from "../Pages/LoadingPage/LoadingPage";
 const AdminSecure = ({ children }) => {
   const { userInfo, isLoading } = useUserInfo();
 
-  if (isLoading) <LoadingPage />;
+  if (isLoading) return <LoadingPage />;
 
-  if (userInfo.isAdmin === true) return children;
+  if (userInfo && userInfo.isAdmin === true) return children;
 
   return <Navigate to="/login" state={location.pathname} replace={true} />;
 };
