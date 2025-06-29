@@ -13,6 +13,7 @@ function SeeALLAttendance() {
     // if (filterItem.class !== "") {
     fetchStudentsAttendance();
     // }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterItem.class]);
 
   useEffect(() => {
