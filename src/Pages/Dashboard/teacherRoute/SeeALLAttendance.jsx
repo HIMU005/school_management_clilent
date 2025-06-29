@@ -35,7 +35,6 @@ function SeeALLAttendance() {
         selectedClass: filterItem.class,
       },
     });
-    console.log(data.data[0]);
     const flattened = data.data.map((item) => ({
       id: item.id,
       photo: item.student?.user?.photoURL,

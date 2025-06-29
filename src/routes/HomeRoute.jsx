@@ -7,11 +7,13 @@ import SignUp from "../Pages/Authentication/SignUp";
 import DashboardHome from "../Pages/Dashboard/commonRoute/DashboardHome";
 import Profile from "../Pages/Dashboard/commonRoute/Profile";
 import UpdateProfile from "../Pages/Dashboard/commonRoute/UpdateProfile";
+import SeeAttendance from "../Pages/Dashboard/studentRoute/SeeAttendance";
 import SeeALLAttendance from "../Pages/Dashboard/teacherRoute/SeeALLAttendance";
 import TakeAttendance from "../Pages/Dashboard/teacherRoute/TakeAttendance";
 import About from "../Pages/Home/About";
 import Contact from "../Pages/Home/Contact";
 import PrivateRoute from "./PrivateRoute";
+import StudentSecure from "./StudentSecure";
 import TeacherSecure from "./TeacherSecure";
 // import TeacherSecure from "./TeacherSecure";
 
@@ -76,6 +78,19 @@ const HomeRoute = () => {
               <TeacherSecure>
                 <SeeALLAttendance />
               </TeacherSecure>
+            </PrivateRoute>
+          }
+        />
+
+        {/* students private route are here  */}
+        {/* see attendance mine */}
+        <Route
+          path="see-attendance-mine"
+          element={
+            <PrivateRoute>
+              <StudentSecure>
+                <SeeAttendance />
+              </StudentSecure>
             </PrivateRoute>
           }
         />
