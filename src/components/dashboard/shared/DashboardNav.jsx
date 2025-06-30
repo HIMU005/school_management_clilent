@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { IoClose, IoReorderThreeOutline } from "react-icons/io5";
 import useUserInfo from "../../../hooks/useUserInfo";
+import AdminRouter from "../Navigation/AdminRouter";
 import DefaultDashNavigation from "../Navigation/DefaultDashNavigation";
 import StudentRouter from "../Navigation/StudentRouter";
 import TeacherRouter from "../Navigation/TeacherRouter";
@@ -25,6 +26,8 @@ const DashboardNav = ({ isOpen, setIsOpen }) => {
         <div className="flex flex-col justify-between h-full  ">
           <div></div>
           <div>
+            {/* when the user is admin then show the admin router */}
+            {userInfo?.isAdmin && <AdminRouter />}
             {/* when the user is teacher then show the teacher router */}
             {userInfo?.role === "TEACHER" && <TeacherRouter />}
             {/* when the user is student then show the default navigation */}

@@ -4,6 +4,7 @@ import DashBoardLayout from "../layout/DashBoardLayout";
 import Root from "../layout/Root";
 import Login from "../Pages/Authentication/Login";
 import SignUp from "../Pages/Authentication/SignUp";
+import AddBooks from "../Pages/Dashboard/adminRoute.jsx/AddBooks";
 import DashboardHome from "../Pages/Dashboard/commonRoute/DashboardHome";
 import Profile from "../Pages/Dashboard/commonRoute/Profile";
 import UpdateProfile from "../Pages/Dashboard/commonRoute/UpdateProfile";
@@ -14,6 +15,7 @@ import SeeALLAttendance from "../Pages/Dashboard/teacherRoute/SeeALLAttendance";
 import TakeAttendance from "../Pages/Dashboard/teacherRoute/TakeAttendance";
 import About from "../Pages/Home/About";
 import Contact from "../Pages/Home/Contact";
+import AdminSecure from "./AdminSecure";
 import PrivateRoute from "./PrivateRoute";
 import StudentSecure from "./StudentSecure";
 import TeacherSecure from "./TeacherSecure";
@@ -116,6 +118,19 @@ const HomeRoute = () => {
               <StudentSecure>
                 <PaymentList />
               </StudentSecure>
+            </PrivateRoute>
+          }
+        />
+
+        {/* route for admin  */}
+        {/* add books  */}
+        <Route
+          path="add-subject"
+          element={
+            <PrivateRoute>
+              <AdminSecure>
+                <AddBooks />
+              </AdminSecure>
             </PrivateRoute>
           }
         />

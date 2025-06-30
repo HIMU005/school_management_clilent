@@ -129,8 +129,6 @@ const UpdateProfile = () => {
         values.photoURL = imageUrl; // Attach the URL of the uploaded image
       }
 
-      console.log(values);
-
       const { data } = await axiosSecure.put(
         `/api/update_user/${userInfo?.id}`,
         values

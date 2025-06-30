@@ -13,7 +13,6 @@ function PaymentList() {
   const { user } = useAuth();
   const { email } = user || {};
 
-  console.log(paymentsList);
   useEffect(() => {
     if (email) {
       fetchPaymentList();
