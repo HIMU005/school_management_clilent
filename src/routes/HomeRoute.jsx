@@ -7,6 +7,8 @@ import SignUp from "../Pages/Authentication/SignUp";
 import DashboardHome from "../Pages/Dashboard/commonRoute/DashboardHome";
 import Profile from "../Pages/Dashboard/commonRoute/Profile";
 import UpdateProfile from "../Pages/Dashboard/commonRoute/UpdateProfile";
+import PayBill from "../Pages/Dashboard/studentRoute/PayBill";
+import PaymentList from "../Pages/Dashboard/studentRoute/PaymentList";
 import SeeAttendance from "../Pages/Dashboard/studentRoute/SeeAttendance";
 import SeeALLAttendance from "../Pages/Dashboard/teacherRoute/SeeALLAttendance";
 import TakeAttendance from "../Pages/Dashboard/teacherRoute/TakeAttendance";
@@ -90,6 +92,29 @@ const HomeRoute = () => {
             <PrivateRoute>
               <StudentSecure>
                 <SeeAttendance />
+              </StudentSecure>
+            </PrivateRoute>
+          }
+        />
+
+        {/* student payment route */}
+        <Route
+          path="payment"
+          element={
+            <PrivateRoute>
+              <StudentSecure>
+                <PayBill />
+              </StudentSecure>
+            </PrivateRoute>
+          }
+        />
+        {/* student see payment list route */}
+        <Route
+          path="see-payment-list"
+          element={
+            <PrivateRoute>
+              <StudentSecure>
+                <PaymentList />
               </StudentSecure>
             </PrivateRoute>
           }

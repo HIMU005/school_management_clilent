@@ -77,7 +77,7 @@ const Login = () => {
   return (
     <div className="flex justify-center flex-col max-w-96 mx-auto">
       <Form
-        className="border border-red-500"
+        className=""
         name="basic"
         labelCol={{
           span: 8,
