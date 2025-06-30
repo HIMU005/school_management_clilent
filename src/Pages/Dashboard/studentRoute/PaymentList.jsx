@@ -1,14 +1,19 @@
-import { Table, Tag } from "antd";
+import { Modal, Table, Tag } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import { axiosSecure } from "../../../hooks/useAxiosSecure";
+import LoadingPage from "../../LoadingPage/LoadingPage";
 
 function PaymentList() {
   const [paymentsList, setPaymentsList] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPayment, setSelectedPayment] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const { email } = user || {};
 
+  console.log(paymentsList);
   useEffect(() => {
     if (email) {
       fetchPaymentList();
@@ -18,11 +23,13 @@ function PaymentList() {
 
   const fetchPaymentList = async () => {
     try {
-      // Assuming axiosSecure is defined and configured
+      setLoading(true);
       const { data } = await axiosSecure.get(`/api/payment/${email}`);
       setPaymentsList(data.data);
     } catch (error) {
       console.error("Error fetching payment list:", error);
+    } finally {
+      setLoading(false);
     }
   };
   const columns = [
@@ -103,6 +110,10 @@ function PaymentList() {
     },
   ];
 
+  if (loading) {
+    return <LoadingPage />;
+  }
+
   return (
     <>
       <h2 className="text-xl font-semibold mt-3">Select the date range</h2>
@@ -112,7 +123,55 @@ function PaymentList() {
         rowKey="id"
         pagination={{ pageSize: 5 }}
         bordered
+        onRow={(record) => {
+          return {
+            onClick: () => {
+              setSelectedPayment(record);
+              setIsModalOpen(true);
+            },
+          };
+        }}
       />
+      <Modal
+        title="Payment Details"
+        open={isModalOpen}
+        onCancel={() => {
+          setIsModalOpen(false);
+          setSelectedPayment(null);
+        }}
+        footer={null}
+      >
+        {selectedPayment && (
+          <div>
+            <p>
+              <strong>Transaction ID:</strong> {selectedPayment.transactionId}
+            </p>
+            <p>
+              <strong>Amount:</strong> ৳
+              {selectedPayment.amount.toLocaleString()}
+            </p>
+            <p>
+              <strong>Payment Date:</strong>{" "}
+              {dayjs(selectedPayment.paymentDate).format("YYYY-MM-DD HH:mm")}
+            </p>
+            <p>
+              <strong>Status:</strong> {selectedPayment.status}
+            </p>
+            <p>
+              <strong>Method:</strong> {selectedPayment.method}
+            </p>
+            <p>
+              <strong>Month:</strong> {selectedPayment.month}
+            </p>
+            <p>
+              <strong>Year:</strong> {selectedPayment.year}
+            </p>
+            <p>
+              <strong>Payment by</strong> {selectedPayment.user_email || "N/A"}
+            </p>
+          </div>
+        )}
+      </Modal>
     </>
   );
 }
