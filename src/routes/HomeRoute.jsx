@@ -5,6 +5,7 @@ import Root from "../layout/Root";
 import Login from "../Pages/Authentication/Login";
 import SignUp from "../Pages/Authentication/SignUp";
 import AddBooks from "../Pages/Dashboard/adminRoute.jsx/AddBooks";
+import AllBooks from "../Pages/Dashboard/adminRoute.jsx/AllBooks";
 import DashboardHome from "../Pages/Dashboard/commonRoute/DashboardHome";
 import Profile from "../Pages/Dashboard/commonRoute/Profile";
 import UpdateProfile from "../Pages/Dashboard/commonRoute/UpdateProfile";
@@ -130,6 +131,16 @@ const HomeRoute = () => {
             <PrivateRoute>
               <AdminSecure>
                 <AddBooks />
+              </AdminSecure>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="all-subjects"
+          element={
+            <PrivateRoute>
+              <AdminSecure>
+                <AllBooks />
               </AdminSecure>
             </PrivateRoute>
           }

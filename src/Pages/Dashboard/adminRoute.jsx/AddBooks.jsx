@@ -1,6 +1,7 @@
 import { Button, Dropdown, Form, Input, Space } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { axiosSecure } from "../../../hooks/useAxiosSecure";
 import LoadingPage from "../../LoadingPage/LoadingPage";
@@ -9,6 +10,7 @@ function AddBooks() {
   const [form] = Form.useForm();
   const [teacher, setTeacher] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const [subjectDetails, setSubjectDetails] = useState({
     name: "",
     description: "",
@@ -89,6 +91,7 @@ function AddBooks() {
       const { data } = await axiosSecure.post("/api/admin/add-book", payload);
       if (data.status === 201) {
         toast.success("Subject added successfully");
+        navigate("/dashboard/all-subjects");
       }
     } catch (error) {
       console.error("Error adding subject:", error);
