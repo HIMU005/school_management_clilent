@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 import useAuth from "./useAuth";
 import useAxiosSecure from "./useAxiosSecure";
 
@@ -20,7 +21,7 @@ const useUserInfo = () => {
   });
 
   if (error) {
-    console.error("Error in useQuery:", error);
+    toast.error(error);
   }
 
   return { userInfo, isLoading, error };

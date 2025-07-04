@@ -35,7 +35,7 @@ const TakeAttendance = () => {
       setStudents(studentDetails);
       setLoading(false); // Set loading to false when done fetching
     } catch (error) {
-      console.error("Error fetching students:", error);
+      toast.error("Error fetching students:", error);
       setLoading(false); // Set loading to false in case of an error
     }
   };
@@ -45,7 +45,7 @@ const TakeAttendance = () => {
       const { data } = await axiosSecure("/api/class");
       setClasses(data.data);
     } catch (error) {
-      console.error("Error fetching classes:", error);
+      toast.error("Error fetching classes:", error);
     }
   };
 
@@ -92,7 +92,7 @@ const TakeAttendance = () => {
       setStudents(studentDetails);
       setLoading(false); // Set loading to false when done fetching
     } catch (error) {
-      console.error("Error fetching students for attendance:", error);
+      toast.error("Error fetching students for attendance:", error);
       setLoading(false); // Set loading to false in case of an error
     }
   };

@@ -32,7 +32,7 @@ function AddBooks() {
       const { data } = await axiosSecure.get("/api/teacher");
       setTeacher(data.data);
     } catch (error) {
-      console.error("Error fetching teacher data:", error);
+      toast.error(error.message);
     } finally {
       setLoading(false);
     }
@@ -94,8 +94,7 @@ function AddBooks() {
         navigate("/dashboard/all-subjects");
       }
     } catch (error) {
-      console.error("Error adding subject:", error);
-      toast.error("Failed to add subject");
+      toast.error("Failed to add subject ", error);
     } finally {
       setLoading(false);
       form.resetFields();

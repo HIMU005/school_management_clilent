@@ -3,8 +3,6 @@ import { useEffect } from "react";
 
 /* eslint-disable react/prop-types */
 const TeacherUpdate = ({ roleInfo, form }) => {
-  // console.log(roleInfo);
-
   useEffect(() => {
     if (roleInfo) {
       form.setFieldsValue({

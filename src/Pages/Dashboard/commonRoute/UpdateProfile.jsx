@@ -22,8 +22,6 @@ const UpdateProfile = () => {
   const [classes, setClasses] = useState(null);
   const [fileList, setFileList] = useState([]);
 
-  // console.log(roleInfo);
-
   useEffect(() => {
     if (email) {
       fetchUserInfo();

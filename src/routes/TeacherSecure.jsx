@@ -1,4 +1,5 @@
 import { Navigate } from "react-router";
+import { toast } from "react-toastify";
 import useUserInfo from "../hooks/useUserInfo";
 import LoadingPage from "../Pages/LoadingPage/LoadingPage";
 
@@ -11,6 +12,7 @@ const TeacherSecure = ({ children }) => {
   // if (userInfo?.role === "TEACHER") return children;
   if (userInfo && userInfo.role === "TEACHER") return children;
 
+  toast.warn("Only teacher have access for this route");
   return <Navigate to="/login" state={location.pathname} replace={true} />;
 };
 

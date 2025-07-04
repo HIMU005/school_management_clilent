@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 import useAuth from "./useAuth";
 
 export const axiosSecure = axios.create({
@@ -17,7 +18,8 @@ const useAxiosSecure = () => {
         return res;
       },
       async (error) => {
-        console.log("Error tracked in the interrupt ", error.response);
+        toast.error(error.response);
+        console.log(error);
         if (error.response.status === 401 || error.response.status === 403) {
           await logOut;
           setLoading(false);

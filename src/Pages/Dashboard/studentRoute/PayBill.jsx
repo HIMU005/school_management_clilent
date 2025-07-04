@@ -1,6 +1,7 @@
 import { Button, DatePicker } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import useAuth from "../../../hooks/useAuth";
 import { axiosSecure } from "../../../hooks/useAxiosSecure";
 
@@ -19,7 +20,7 @@ function PayBill() {
       const { data } = await axiosSecure.get(`/api/user/${user?.email}`);
       setStudentInfo(data.data);
     } catch (error) {
-      console.error("Error fetching student info:", error);
+      toast.error("Error fetching student info:", error);
     }
   };
   const handleDateChange = (value) => {
@@ -40,9 +41,8 @@ function PayBill() {
         throw new Error("Payment URL not found");
       }
       window.location.replace(data.url);
-      console.log(data.url);
     } catch (error) {
-      console.error("Error processing payment:", error);
+      toast.error("Error processing payment:", error);
     } finally {
       setLoading(false);
     }

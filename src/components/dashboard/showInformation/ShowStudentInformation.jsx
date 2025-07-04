@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import InformationAsInput from "./InformationAsInput";
 
@@ -19,7 +20,7 @@ const ShowStudentInformation = ({ roleInfo }) => {
       const { data } = await axiosSecure("/api/class");
       setClasses(data.data);
     } catch (error) {
-      console.error("Error fetching classes:", error);
+      toast.error(error.message);
     }
   };
 

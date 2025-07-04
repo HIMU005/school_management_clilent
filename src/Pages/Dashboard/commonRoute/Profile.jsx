@@ -2,6 +2,7 @@ import { Image } from "antd";
 import { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { Link } from "react-router";
+import { toast } from "react-toastify";
 import InformationAsInput from "../../../components/dashboard/showInformation/InformationAsInput";
 import ShowStudentInformation from "../../../components/dashboard/showInformation/ShowStudentInformation";
 import ShowTeacherInformation from "../../../components/dashboard/showInformation/showTeacherInformation";
@@ -30,7 +31,7 @@ const Profile = () => {
       const { data } = await axiosSecure(`/api/user/${email}`);
       setUserInfo(data?.data);
     } catch (error) {
-      console.log(error);
+      toast.error(error);
     }
   };
 
@@ -51,7 +52,7 @@ const Profile = () => {
         setRoleInfo(data.data);
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error);
     }
   };
 

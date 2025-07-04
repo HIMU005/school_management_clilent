@@ -1,6 +1,7 @@
 import { Modal, Table, Tag } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import useAuth from "../../../hooks/useAuth";
 import { axiosSecure } from "../../../hooks/useAxiosSecure";
 import LoadingPage from "../../LoadingPage/LoadingPage";
@@ -26,7 +27,7 @@ function PaymentList() {
       const { data } = await axiosSecure.get(`/api/payment/${email}`);
       setPaymentsList(data.data);
     } catch (error) {
-      console.error("Error fetching payment list:", error);
+      toast.error("Error fetching payment list:", error);
     } finally {
       setLoading(false);
     }

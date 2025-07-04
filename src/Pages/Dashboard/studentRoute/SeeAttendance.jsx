@@ -1,6 +1,7 @@
 import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import AttendanceTable from "../../../components/dashboard/shared/attendenceTable/AttendanceTable";
 import useAuth from "../../../hooks/useAuth";
 import { axiosSecure } from "../../../hooks/useAxiosSecure";
@@ -40,7 +41,7 @@ function SeeAttendance() {
       }));
       setStudentsAttendance(flattened);
     } catch (error) {
-      console.error("Error filtering attendance by date:", error);
+      toast.error("Error filtering attendance by date:", error);
     }
   };
 

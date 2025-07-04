@@ -7,7 +7,7 @@ import useAuth from "../../hooks/useAuth";
 import useAxiosCommon from "../../hooks/useAxiosCommon";
 
 const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
+  toast.error(errorInfo);
 };
 const Login = () => {
   const { loginUser, setUser, setLoading, googleLogin, loading } = useAuth();

@@ -1,5 +1,6 @@
 import { Button, Dropdown, Space } from "antd";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import AttendanceTable from "../../../components/dashboard/shared/attendenceTable/AttendanceTable";
 import { axiosSecure } from "../../../hooks/useAxiosSecure";
 
@@ -29,7 +30,6 @@ function SeeALLAttendance() {
     const selectedStudentId = selectedStudent
       ? parseInt(selectedStudent?.id)
       : null;
-    console.log(selectedStudentId);
     const { data } = await axiosSecure.get("/api/filter/see_attendance", {
       params: {
         student_id: selectedStudentId,
@@ -54,7 +54,7 @@ function SeeALLAttendance() {
       const { data } = await axiosSecure("/api/student");
       setStudents(data.data);
     } catch (error) {
-      console.log("Error fetching students info ", error.message);
+      toast.error(error.message);
     }
   };
 

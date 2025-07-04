@@ -12,7 +12,7 @@ import useAxiosCommon from "../../hooks/useAxiosCommon";
 const { Option } = Select;
 
 const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
+  toast.error(errorInfo);
 };
 const SignUp = () => {
   const { createUser, setUser, setLoading, googleLogin, loading } = useAuth();
