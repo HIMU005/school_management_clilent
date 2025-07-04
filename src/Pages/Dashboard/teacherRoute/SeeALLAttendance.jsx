@@ -1,38 +1,38 @@
+import { Button, Dropdown, Space } from "antd";
 import { useEffect, useState } from "react";
 import AttendanceTable from "../../../components/dashboard/shared/attendenceTable/AttendanceTable";
 import { axiosSecure } from "../../../hooks/useAxiosSecure";
 
 function SeeALLAttendance() {
-  const [filterItem, setFilterItem] = useState({
-    class: "",
-  });
-  const [classes, setClasses] = useState([]);
   const [studentsAttendance, setStudentsAttendance] = useState([]);
+  const [students, setStudents] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState(null);
 
   useEffect(() => {
     // if (filterItem.class !== "") {
     fetchStudentsAttendance();
     // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterItem.class]);
+  }, [selectedStudent]);
 
   useEffect(() => {
-    fetchClasses();
+    fetchStudents();
+
+    // clean up
+    return () => {
+      setStudentsAttendance([]);
+      setStudents([]);
+    };
   }, []);
 
-  // selected class
-  const handleChange = (event) => {
-    if (event.target.value) {
-      const classID = parseInt(event.target.value);
-      setFilterItem({ ...filterItem, class: classID });
-      return;
-    }
-    setFilterItem({ ...filterItem, class: "" });
-  };
   const fetchStudentsAttendance = async () => {
+    const selectedStudentId = selectedStudent
+      ? parseInt(selectedStudent?.id)
+      : null;
+    console.log(selectedStudentId);
     const { data } = await axiosSecure.get("/api/filter/see_attendance", {
       params: {
-        selectedClass: filterItem.class,
+        student_id: selectedStudentId,
       },
     });
     const flattened = data.data.map((item) => ({
@@ -48,30 +48,62 @@ function SeeALLAttendance() {
     setStudentsAttendance(flattened);
   };
 
-  const fetchClasses = async () => {
+  // fetch students information
+  const fetchStudents = async () => {
     try {
-      const { data } = await axiosSecure("/api/class");
-      setClasses(data.data);
+      const { data } = await axiosSecure("/api/student");
+      setStudents(data.data);
     } catch (error) {
-      console.error("Error fetching classes:", error);
+      console.log("Error fetching students info ", error.message);
     }
+  };
+
+  // for dropdown
+  const studentItems = students.map((student) => ({
+    key: student.id,
+    label: (
+      <div className="flex items-center gap-2">
+        <img
+          src={student.user.photoURL}
+          alt={student.user.name}
+          className="w-5 h-5 rounded-full object-cover"
+        />
+        <span>{student.user.name}</span>
+      </div>
+    ),
+  }));
+
+  // select a student
+  const studentMenuProps = {
+    items: studentItems,
+    onClick: ({ key }) => {
+      const found = students.find((s) => s.id === parseInt(key));
+      setSelectedStudent(found);
+    },
   };
 
   return (
     <>
       <h2 className="text-xl font-semibold mt-3">Select class</h2>
-      <select
-        className="block w-40 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none mb-3"
-        value={filterItem.class || ""}
-        onChange={handleChange}
-      >
-        <option value="">Select a class</option>
-        {classes?.map((classItem) => (
-          <option key={classItem?.id} value={classItem?.id}>
-            {classItem?.name}
-          </option>
-        ))}
-      </select>
+
+      <Dropdown menu={studentMenuProps}>
+        <Button>
+          <Space>
+            {selectedStudent ? (
+              <div className="flex items-center gap-2">
+                <img
+                  src={selectedStudent.user.photoURL}
+                  alt={selectedStudent.user.name}
+                  className="w-5 h-5 rounded-full object-cover"
+                />
+                <span>{selectedStudent.user.name}</span>
+              </div>
+            ) : (
+              "Select any student"
+            )}
+          </Space>
+        </Button>
+      </Dropdown>
 
       <AttendanceTable studentsAttendance={studentsAttendance} />
     </>

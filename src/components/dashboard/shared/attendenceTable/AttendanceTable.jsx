@@ -2,6 +2,7 @@ import { Table } from "antd";
 
 // eslint-disable-next-line react/prop-types
 function AttendanceTable({ studentsAttendance }) {
+  // console.log(studentsAttendance);
   const columns = [
     {
       title: "Photo",
