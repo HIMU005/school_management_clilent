@@ -3,7 +3,7 @@ import { Outlet } from "react-router";
 import DashboardNav from "../components/dashboard/shared/DashboardNav";
 
 const DashBoardLayout = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <div className="flex  justify-start gap-2">

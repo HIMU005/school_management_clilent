@@ -13,7 +13,7 @@ const Login = () => {
   const { loginUser, setUser, setLoading, googleLogin, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state || "/";
+  const from = location.state || "/dashboard/profile";
   const axiosCommon = useAxiosCommon();
 
   const onFinish = async (values) => {
