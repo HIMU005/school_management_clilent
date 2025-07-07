@@ -13,7 +13,15 @@ createRoot(document.getElementById("root")).render(
     <AuthProvider>
       <BrowserRouter>
         <HomeRoute />
-        <ToastContainer />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          closeOnClick
+          pauseOnHover={false}
+          draggable
+          theme="light"
+        />
       </BrowserRouter>
     </AuthProvider>
   </QueryClientProvider>

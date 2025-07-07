@@ -12,7 +12,7 @@ import useAxiosCommon from "../../hooks/useAxiosCommon";
 const { Option } = Select;
 
 const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
+  toast.error(errorInfo);
 };
 const SignUp = () => {
   const { createUser, setUser, setLoading, googleLogin, loading } = useAuth();
@@ -102,7 +102,7 @@ const SignUp = () => {
     <div>
       <div className="flex justify-center flex-col max-w-96 mx-auto">
         <Form
-          className="border border-red-500"
+          className=""
           name="basic"
           labelCol={{
             span: 8,

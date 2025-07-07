@@ -9,6 +9,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import app from "../firebase/firebase.config";
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext(null);
@@ -36,7 +37,7 @@ const AuthProvider = ({ children }) => {
 
   const logOut = () => {
     setLoading(true);
-    console.log("time for logout");
+    toast.warn("Now you are logout");
     return signOut(auth);
   };
 

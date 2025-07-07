@@ -1,15 +1,19 @@
 import { Navigate } from "react-router";
+import { toast } from "react-toastify";
+import useAuth from "../hooks/useAuth";
 import useUserInfo from "../hooks/useUserInfo";
 import LoadingPage from "../Pages/LoadingPage/LoadingPage";
 
 // eslint-disable-next-line react/prop-types
 const AdminSecure = ({ children }) => {
   const { userInfo, isLoading } = useUserInfo();
+  const { logOut } = useAuth();
+  if (isLoading) return <LoadingPage />;
 
-  if (isLoading) <LoadingPage />;
+  if (userInfo && userInfo.isAdmin === true) return children;
 
-  if (userInfo.isAdmin === true) return children;
-
+  toast.warn("Only admin have access for this route");
+  logOut();
   return <Navigate to="/login" state={location.pathname} replace={true} />;
 };
 

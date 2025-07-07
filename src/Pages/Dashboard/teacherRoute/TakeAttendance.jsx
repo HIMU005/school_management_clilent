@@ -1,12 +1,14 @@
-import { Button, Select, Table } from "antd";
+import { Button, message, Select, Table } from "antd";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { axiosSecure } from "../../../hooks/useAxiosSecure";
 
 const TakeAttendance = () => {
   const [students, setStudents] = useState([]);
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(true);
-  console.log(classes);
+  const [selectedClass, setSelectedClass] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     fetchStudents();
@@ -23,9 +25,9 @@ const TakeAttendance = () => {
             `/api/user/user_id/${student.user_id}`
           );
           return {
-            id: student.id,
+            id: student?.id,
             name: userResponse.data.data.name || "Unknown",
-            classId: student.class_id,
+            classId: student?.class_id,
             status: "ABSENT",
           };
         })
@@ -33,7 +35,7 @@ const TakeAttendance = () => {
       setStudents(studentDetails);
       setLoading(false); // Set loading to false when done fetching
     } catch (error) {
-      console.error("Error fetching students:", error);
+      toast.error("Error fetching students:", error);
       setLoading(false); // Set loading to false in case of an error
     }
   };
@@ -43,7 +45,7 @@ const TakeAttendance = () => {
       const { data } = await axiosSecure("/api/class");
       setClasses(data.data);
     } catch (error) {
-      console.error("Error fetching classes:", error);
+      toast.error("Error fetching classes:", error);
     }
   };
 
@@ -56,30 +58,80 @@ const TakeAttendance = () => {
     );
   };
 
-  // Handle submit
-  const handleSubmit = () => {
-    console.log(JSON.stringify(students, null, 2)); // Log JSON data
+  // selected class
+  const handleChange = (event) => {
+    if (event.target.value) {
+      const classID = parseInt(event.target.value);
+      setSelectedClass(classID);
+      return;
+    }
+    setSelectedClass(event.target.value);
   };
 
-  // const dataSource = [
-  //   {
-  //     key: "1",
-  //     name: "Mike",
-  //     age: 32,
-  //     address: "10 Downing Street",
-  //   },
-  //   {
-  //     key: "2",
-  //     name: "John",
-  //     age: 42,
-  //     address: "10 Downing Street",
-  //   },
-  // ];
+  const handleFilterFetch = async () => {
+    try {
+      const { data } = await axiosSecure(
+        `/api/filter/student_for_attendance?selectedClass=${selectedClass}`
+      );
+
+      // Assuming the data returned from the filter API contains an array of students
+      const studentDetails = await Promise.all(
+        data.data.map(async (student) => {
+          // Fetch the user name for each student
+          const userResponse = await axiosSecure(
+            `/api/user/user_id/${student.user_id}`
+          );
+          return {
+            id: student?.id,
+            name: userResponse.data.data.name || "Unknown",
+            classId: student?.class_id,
+            status: "ABSENT", // You can set the status to whatever is appropriate here
+          };
+        })
+      );
+      setStudents(studentDetails);
+      setLoading(false); // Set loading to false when done fetching
+    } catch (error) {
+      toast.error("Error fetching students for attendance:", error);
+      setLoading(false); // Set loading to false in case of an error
+    }
+  };
+
+  // Handle submit
+  const handleSubmit = async () => {
+    try {
+      const attendanceData = students.map((student) => ({
+        student_id: student.id,
+        class_id: student.classId,
+        status: student.status,
+      }));
+      const response = await axiosSecure.post(
+        "/api/teacher/attendance",
+        attendanceData
+      );
+      if (response.data.status === 201) {
+        toast.success("Attendance taken successfully");
+      }
+      message.success("attendance taking perfectly done");
+    } catch (error) {
+      if (error.response && error.response.data) {
+        toast.error(error.response.data.message || "Failed to take attendance");
+      }
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const statusStyles = {
+    PRESENT: { backgroundColor: "#1DD100", color: "white" }, // green-500
+    ABSENT: { backgroundColor: "#dc3545", color: "white" }, // red-500
+    LATE: { backgroundColor: "#2196F3", color: "white" }, // orange-500
+  };
 
   const columns = [
     {
       title: "Student Id",
-      dataIndex: "studentID",
+      dataIndex: "id",
       key: "studentId",
     },
     {
@@ -89,8 +141,12 @@ const TakeAttendance = () => {
     },
     {
       title: "Class name",
-      dataIndex: "age",
-      key: "age",
+      dataIndex: "classId",
+      key: "className",
+      render: (classId) => {
+        const classDetails = classes.find((cls) => cls.id === classId);
+        return classDetails ? classDetails.name : "No Class"; // Display class name or "No Class"
+      },
     },
     {
       title: "Attendance",
@@ -100,11 +156,26 @@ const TakeAttendance = () => {
         <Select
           value={record.status}
           onChange={(value) => handleStatusChange(record.id, value)}
-          style={{ width: 120 }}
+          className="bg-blue-500"
+          style={{
+            width: 120,
+            backgroundColor:
+              statusStyles[record.status]?.backgroundColor || "#f5f5f5", // Default to gray if no match
+            color: statusStyles[record.status]?.color || "black", // Default to black text if no match
+            borderRadius: 5,
+            textAlign: "center",
+            padding: "3px",
+          }}
         >
-          <Select.Option value="PRESENT">Present</Select.Option>
-          <Select.Option value="ABSENT">Absent</Select.Option>
-          <Select.Option value="LATE">Late</Select.Option>
+          <Select.Option value="PRESENT" style={statusStyles.PRESENT}>
+            Present
+          </Select.Option>
+          <Select.Option value="ABSENT" style={statusStyles.ABSENT}>
+            Absent
+          </Select.Option>
+          <Select.Option value="LATE" style={statusStyles.LATE}>
+            Late
+          </Select.Option>
         </Select>
       ),
     },
@@ -116,6 +187,24 @@ const TakeAttendance = () => {
 
   return (
     <div>
+      <h2 className="text-xl font-semibold mt-3">Select class</h2>
+      <select
+        className="block w-40 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none mb-3"
+        value={selectedClass}
+        onChange={handleChange}
+      >
+        <option value="">Select a class</option>
+        {classes?.map((classItem) => (
+          <option key={classItem?.id} value={classItem?.id}>
+            {classItem?.name}
+          </option>
+        ))}
+      </select>
+
+      <button onClick={handleFilterFetch} className="btn btn-outline btn-info">
+        Apply
+      </button>
+
       <Table
         rowKey={"id"}
         dataSource={students}
@@ -123,7 +212,13 @@ const TakeAttendance = () => {
         pagination={false}
         bordered
       />
-      <Button type="primary" onClick={handleSubmit} style={{ marginTop: 10 }}>
+      <Button
+        type="primary"
+        loading={submitting}
+        disabled={submitting}
+        onClick={handleSubmit}
+        style={{ marginTop: 10 }}
+      >
         Submit Attendance
       </Button>
     </div>

@@ -7,15 +7,13 @@ import useAuth from "../../hooks/useAuth";
 import useAxiosCommon from "../../hooks/useAxiosCommon";
 
 const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
+  toast.error(errorInfo);
 };
 const Login = () => {
   const { loginUser, setUser, setLoading, googleLogin, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state || "/";
-  console.log(location);
-  console.log(from);
+  const from = location.state || "/dashboard/profile";
   const axiosCommon = useAxiosCommon();
 
   const onFinish = async (values) => {
@@ -79,7 +77,7 @@ const Login = () => {
   return (
     <div className="flex justify-center flex-col max-w-96 mx-auto">
       <Form
-        className="border border-red-500"
+        className=""
         name="basic"
         labelCol={{
           span: 8,

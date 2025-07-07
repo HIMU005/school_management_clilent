@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { imageUpload } from "../../../api/imageUpload";
 import StudentUpdate from "../../../components/dashboard/UpdateForm/StudentUpdate";
+import TeacherUpdate from "../../../components/dashboard/UpdateForm/TeacherUpdate";
 import useAuth from "../../../hooks/useAuth";
 import { axiosSecure } from "../../../hooks/useAxiosSecure";
 
@@ -74,10 +75,17 @@ const UpdateProfile = () => {
 
   const fetchRoleInfo = async () => {
     try {
-      // const {data} = await axiosSecure(`/api/`)
+      // fetch if the user is STUDENT
       if (userInfo.role === "STUDENT") {
         const { data } = await axiosSecure(
           `/api/student/user_id/${userInfo.id}`
+        );
+        setRoleInfo(data.data);
+      }
+
+      if (userInfo.role === "TEACHER") {
+        const { data } = await axiosSecure(
+          `/api/teacher/user_id/${userInfo.id}`
         );
         setRoleInfo(data.data);
       }
@@ -118,8 +126,6 @@ const UpdateProfile = () => {
         const imageUrl = await imageUpload(fileList[0].originFileObj); // Upload image
         values.photoURL = imageUrl; // Attach the URL of the uploaded image
       }
-
-      console.log(values);
 
       const { data } = await axiosSecure.put(
         `/api/update_user/${userInfo?.id}`,
@@ -241,6 +247,10 @@ const UpdateProfile = () => {
 
       {userInfo?.role === "STUDENT" && (
         <StudentUpdate roleInfo={roleInfo} classes={classes} form={form} />
+      )}
+
+      {userInfo?.role === "TEACHER" && (
+        <TeacherUpdate roleInfo={roleInfo} form={form} />
       )}
 
       <Button

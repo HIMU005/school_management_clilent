@@ -2,8 +2,10 @@ import { Image } from "antd";
 import { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { Link } from "react-router";
+import { toast } from "react-toastify";
 import InformationAsInput from "../../../components/dashboard/showInformation/InformationAsInput";
 import ShowStudentInformation from "../../../components/dashboard/showInformation/ShowStudentInformation";
+import ShowTeacherInformation from "../../../components/dashboard/showInformation/showTeacherInformation";
 import useAuth from "../../../hooks/useAuth";
 import { axiosSecure } from "../../../hooks/useAxiosSecure";
 
@@ -29,21 +31,28 @@ const Profile = () => {
       const { data } = await axiosSecure(`/api/user/${email}`);
       setUserInfo(data?.data);
     } catch (error) {
-      console.log(error);
+      toast.error(error);
     }
   };
 
   const fetchRoleInfo = async () => {
     try {
-      // const {data} = await axiosSecure(`/api/`)
+      // fetch if the user is student
       if (userInfo.role === "STUDENT") {
         const { data } = await axiosSecure(
           `/api/student/user_id/${userInfo.id}`
         );
         setRoleInfo(data.data);
       }
+      // fetch if the user is teacher
+      if (userInfo.role === "TEACHER") {
+        const { data } = await axiosSecure(
+          `/api/teacher/user_id/${userInfo.id}`
+        );
+        setRoleInfo(data.data);
+      }
     } catch (error) {
-      console.log(error);
+      toast.error(error);
     }
   };
 
@@ -107,6 +116,10 @@ const Profile = () => {
         <div className=" p-2 bg-gray-100 rounded-md ">
           {userInfo?.role === "STUDENT" && (
             <ShowStudentInformation roleInfo={roleInfo} />
+          )}
+
+          {userInfo?.role === "TEACHER" && (
+            <ShowTeacherInformation roleInfo={roleInfo} />
           )}
         </div>
       </div>
