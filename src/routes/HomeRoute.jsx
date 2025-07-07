@@ -34,7 +34,14 @@ const HomeRoute = () => {
       </Route>
 
       {/* dashboard  */}
-      <Route path="/dashboard" element={<DashBoardLayout />}>
+      <Route
+        path="/dashboard"
+        element={
+          <PrivateRoute>
+            <DashBoardLayout />
+          </PrivateRoute>
+        }
+      >
         {/* dashboard default  */}
         <Route
           index
