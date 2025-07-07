@@ -5,7 +5,8 @@ import { Link } from "react-router";
 import { toast } from "react-toastify";
 import InformationAsInput from "../../../components/dashboard/showInformation/InformationAsInput";
 import ShowStudentInformation from "../../../components/dashboard/showInformation/ShowStudentInformation";
-import ShowTeacherInformation from "../../../components/dashboard/showInformation/showTeacherInformation";
+
+import ShowTeacherInformation from "../../../components/dashboard/showInformation/ShowTeacherInformation";
 import useAuth from "../../../hooks/useAuth";
 import { axiosSecure } from "../../../hooks/useAxiosSecure";
 
